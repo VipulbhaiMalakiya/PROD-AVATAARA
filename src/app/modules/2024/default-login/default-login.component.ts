@@ -57,49 +57,7 @@ export class DefaultLoginComponent implements OnInit {
         const subdomain = this.getSubdomainFromUrl(data.loginUrl);
         let subdomainUrl: string;
         localStorage.setItem('loginUrl', subdomain ?? '');
-        if (!subdomain) {
-            //  subdomainUrl = 'http://localhost:4200/#/login';
-            subdomainUrl = `https://${environment.appUrl}`;
 
-        } else {
-            switch (subdomain) {
-                case environment._subdomain:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain1:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain2:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain3:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain4:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain5:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain6:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain7:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain8:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                case environment._subdomain9:
-                    subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-                    break;
-                default:
-                    subdomainUrl = `${environment.appUrl}`;
-                    break;
-            }
-            // subdomainUrl = `https://${subdomain}.${environment.appUrl}`;
-        }
-        window.location.href = subdomainUrl;
     }
 
     getSubdomainFromUrl(loginUrl: string): string | null {

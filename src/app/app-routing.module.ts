@@ -383,7 +383,7 @@ const routes: Routes = [
     },
 
     { path: 'login', component: LoginComponent },
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    // { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'sign-up', component: SignUpComponent },
     { path: 'reset-password/:token', component: ResetPasswordComponent },

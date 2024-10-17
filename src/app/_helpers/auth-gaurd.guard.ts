@@ -10,10 +10,11 @@ export class AuthGaurdGuard {
     constructor(private Authguardservice: AuthenticationService, private router: Router) { }
 
     canActivate(): boolean {
-        if (!localStorage.getItem('loginUrl')) {
-            this.router.navigateByUrl("/");
-        }
-        else if (!this.Authguardservice.gettoken()) {
+        // if (!localStorage.getItem('loginUrl')) {
+        //     this.router.navigateByUrl("/");
+        // }
+        // else
+        if (!this.Authguardservice.gettoken()) {
             this.router.navigateByUrl("/login");
         }
         return this.Authguardservice.gettoken();
