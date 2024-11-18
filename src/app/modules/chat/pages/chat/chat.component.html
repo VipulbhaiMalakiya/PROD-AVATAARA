@@ -914,7 +914,9 @@
                                 </p>
                                 <small> {{data.time |dateAgo}}</small>
                             </div>
-                            <!-- Templet Start -->
+
+
+                            <!--! Template Start -->
 
                             <!-- booking_confirmation -->
                             <li class="msg-replayer"
@@ -959,7 +961,7 @@
                                 </div>
                             </li>
 
-                            <!-- checking_in_welcome_details_wifidetails -->
+                            <!--! checking_in_welcome_details_wifidetails -->
                             <li class="msg-replayer"
                                 *ngIf="data.messagetype === 'template' && data.templateName == 'checking_in_welcome_details_wifidetails' ">
                                 <div class="avata">
@@ -1018,10 +1020,10 @@
                                                     *ngIf="data.templateButton1">{{data.templateButton1}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton1">{{data.templateButton3}} <i
+                                                    *ngIf="data.templateButton3">{{data.templateButton3}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                             </p>
                                         </div>
@@ -1130,10 +1132,10 @@
                                                     *ngIf="data.templateButton1">{{data.templateButton1}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton3">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                             </p>
                                         </div>
@@ -1190,10 +1192,10 @@
                                                     *ngIf="data.templateButton1">{{data.templateButton1}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton3">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                             </p>
                                         </div>
@@ -1244,10 +1246,10 @@
                                                 *ngIf="data.templateButton1">{{data.templateButton1}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                             <a class="temppay-btn text-left mb-2"
-                                                *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                             <a class="temppay-btn text-left mb-2"
-                                                *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                *ngIf="data.templateButton3">{{data.templateButton2}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                         </div>
                                     </div>
@@ -1295,10 +1297,10 @@
                                                 *ngIf="data.templateButton1">{{data.templateButton1}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                             <a class="temppay-btn text-left mb-2"
-                                                *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                             <a class="temppay-btn text-left mb-2"
-                                                *ngIf="data.templateButton1">{{data.templateButton2}} <i
+                                                *ngIf="data.templateButton3">{{data.templateButton2}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                         </div>
                                     </div>
@@ -1373,7 +1375,7 @@
 
                                 </div>
                             </li>
-                            <!-- Templet ENd -->
+                            <!--! Template ENd -->
                             <li class="msg-sender"
                                 *ngIf="data.type === 'Receiver' && data.messagetype === 'text' || data.messagetype === 'Text'">
                                 <div class="avata">
