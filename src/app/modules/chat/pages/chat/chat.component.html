@@ -1004,8 +1004,8 @@
                                 </div>
                             </li>
 
-                            <li class="msg-replayer" class="msg-replayer" *ngIf="data.messagetype === 'template' && data.templateBody == 'body'
-              && data.templateButton1 !== null  && data.templateHeader == null">
+                            <li class="msg-replayer" class="msg-replayer"
+                                *ngIf="data.messagetype === 'template' && data.templateBody == 'body'&& data.templateButton1 !== null  && data.templateHeader == null">
 
                                 <div class="avata">
                                     <span *ngIf="data.userFullName === null">Y</span>
@@ -1108,6 +1108,8 @@
                                 </div>
 
                             </li>
+
+
                             <li class="msg-replayer" class="msg-replayer" *ngIf="data.messagetype === 'template' && data.templateBody == null
               && data.templateButton1 == null && data.templateHeader == 'header' && data.templateName !=
               'booking_confirmation' && data.templateName != 'checking_in_welcome_details' && data.templateName !=
@@ -1135,7 +1137,7 @@
                                                     *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton3">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton3">{{data.templateButton3}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                             </p>
                                         </div>
@@ -1169,6 +1171,8 @@
                                 </div>
 
                             </li>
+
+
                             <li class="msg-replayer" class="msg-replayer"
                                 *ngIf="data.messagetype === 'template' && data.templateBody == 'body'
               && data.templateButton1 == null  && data.templateHeader == 'header' && data.templateName != 'booking_confirmation' && data.templateName != 'checking_in_welcome_details_wifidetails'">
@@ -1195,7 +1199,7 @@
                                                     *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                                 <a class="temppay-btn text-left mb-2"
-                                                    *ngIf="data.templateButton3">{{data.templateButton2}} <i
+                                                    *ngIf="data.templateButton3">{{data.templateButton3}} <i
                                                         class="las la-sign-in-alt"></i></a>
                                             </p>
                                         </div>
@@ -1229,6 +1233,7 @@
                                 </div>
 
                             </li>
+
                             <li class="msg-replayer"
                                 *ngIf="data.messagetype === 'template' && data.templateBody == 'body'
                && data.templateButton1 == null && data.templateHeader == null
@@ -1249,7 +1254,7 @@
                                                 *ngIf="data.templateButton2">{{data.templateButton2}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                             <a class="temppay-btn text-left mb-2"
-                                                *ngIf="data.templateButton3">{{data.templateButton2}} <i
+                                                *ngIf="data.templateButton3">{{data.templateButton3}} <i
                                                     class="las la-sign-in-alt"></i></a>
                                         </div>
                                     </div>
@@ -1280,6 +1285,8 @@
                                     </div>
                                 </div>
                             </li>
+
+
                             <li class="msg-replayer"
                                 *ngIf="data.messagetype === 'template' && data.templateBody == null
               && data.templateButton1 !== null && data.templateName != 'booking_confirmation' && data.templateName != 'checking_in_welcome_details_wifidetails'">
@@ -1331,6 +1338,8 @@
                                     </div>
                                 </div>
                             </li>
+
+
                             <li class="msg-replayer"
                                 *ngIf="data.messagetype === 'template' && data.templateBody == null
               && data.templateButton1 == null  && data.templateHeader !== 'header' && data.templateName != 'booking_confirmation' && data.templateName != 'checking_in_welcome_details_wifidetails'">
