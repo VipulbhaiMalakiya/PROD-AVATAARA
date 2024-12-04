@@ -12,7 +12,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, delay, take } from 'rxjs';
+import { Subscription, delay, distinctUntilChanged, take } from 'rxjs';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { CustomersService } from 'src/app/_api/masters/customers.service';
 import { ApiService } from 'src/app/_api/rxjs/api.service';
@@ -177,11 +177,14 @@ export class ChatComponent
             const replacedString = originalString.replace('{{1}}', name).replace('{{2}}', pwd);
             return replacedString;
         } catch (error) {
-            // Handle the error here, e.g., log it or return a default value
-            console.error('Error in replaceAndBoldPlaceholder1:', error);
+
             return 'Error: Unable to replace placeholders';
         }
     }
+
+
+
+
 
     replaceAndBoldPlaceholder550(data?: any) {
         try {
@@ -191,8 +194,6 @@ export class ChatComponent
             const replacedString = originalString.replace('{{1}}', name);
             return replacedString;
         } catch (error) {
-            // Handle the error here, e.g., log it or return a default value
-            console.error('Error in replaceAndBoldPlaceholder1:', error);
             return 'Error: Unable to replace placeholders';
         }
     }
@@ -396,17 +397,28 @@ export class ChatComponent
         this.socket$.subscribe(
             (data: any) => {
 
-                this.messagestates = data.messageStatus;
 
 
-                if (data.mobileNo === this.contact) {
 
-                    this.receivedData.push(data);
+                if (data.mobileNo === this.contact || data.mobileNumber === this.contact) {
+                    // Check if the message already exists based on the messageId
+                    const existingMessageIndex = this.receivedData.findIndex(msg => msg.messageId === data.messageId);
+
+                    if (existingMessageIndex !== -1) {
+                        // If the message already exists, update the status
+                        this.receivedData[existingMessageIndex].messageStatus = data.messageStatus;
+                    } else {
+                        // If it's a new message, push it to the receivedData array
+                        this.receivedData.push(data);
+                    }
+
+
+                    // Call the function to update the contact list and scroll to the bottom
                     this.getContactList();
                     this.isstatus = 'open';
                     this.scrollToBottom();  // Ensure scrolling after data update
-
-                } else if (data.mobileNo !== this.contact) {
+                }
+                else if (data.mobileNo !== this.contact) {
                     this.getContactList();
                 }
                 if (
@@ -417,34 +429,55 @@ export class ChatComponent
                 ) {
                 } else {
                     const currentUrl = this.location.path();
-                    if (currentUrl === '/admin/inbox' || currentUrl === '/admin/inbox/id' || currentUrl === '/admin/inbox/status' || currentUrl === '/inbox' || currentUrl.startsWith('/admin/inbox/')) {
+                    // if (currentUrl === '/admin/inbox' || currentUrl === '/admin/inbox/id' || currentUrl === '/admin/inbox/status' || currentUrl === '/inbox' || currentUrl.startsWith('/admin/inbox/')) {
 
-                        if (data.type === 'Receiver') {
-                            const message: string = `You got a message from ${this.getOnlyName(
-                                data.name
-                            )}`;
-                            const mobileNoExists = this.open.some((item: any) =>
-                                item.phoneNo === data.mobileNo || data.assignedto == this.userData.userId
-                            );
+                    //     if (data.type === 'Receiver') {
+                    //         const message: string = `You got a message from ${this.getOnlyName(
+                    //             data.name
+                    //         )}`;
+                    //         const mobileNoExists = this.open.some((item: any) =>
+                    //             item.phoneNo === data.mobileNo || data.assignedto == this.userData.userId
+                    //         );
 
-                            if (this.userData.role.roleName == 'Admin') {
+                    //         if (this.userData.role.roleName == 'Admin') {
 
-                                console.log('admin', data);
+                    //             this.speakNotification(message);
+                    //         }
+                    //         else if (data.assignedto == this.userData.userId || mobileNoExists) {
+                    //             this.speakNotification(message)
+                    //         }
 
-                                this.speakNotification(message);
-                            }
-                            else if (data.assignedto == this.userData.userId || mobileNoExists) {
-                                console.log('not admin', data);
+                    //     } else {
+                    //         const audio = new Audio();
+                    //         // '../../../../../assets/sound/Whatsapp Message - Sent - Sound.mp3'
+                    //         audio.play();
+                    //     }
+                    // }
 
-                                this.speakNotification(message)
-                            }
 
-                        } else {
-                            const audio = new Audio();
-                            // '../../../../../assets/sound/Whatsapp Message - Sent - Sound.mp3'
-                            audio.play();
+
+                    if (data.type === 'Receiver') {
+                        const message: string = `You got a message from ${this.getOnlyName(
+                            data.name
+                        )}`;
+                        const mobileNoExists = this.open.some((item: any) =>
+                            item.phoneNo === data.mobileNo || data.assignedto == this.userData.userId
+                        );
+
+                        if (this.userData.role.roleName == 'Admin') {
+
+                            this.speakNotification(message);
                         }
+                        else if (data.assignedto == this.userData.userId || mobileNoExists) {
+                            this.speakNotification(message)
+                        }
+
+                    } else {
+                        const audio = new Audio();
+                        // '../../../../../assets/sound/Whatsapp Message - Sent - Sound.mp3'
+                        audio.play();
                     }
+
                 }
             },
             (error: any) => {
@@ -475,6 +508,7 @@ export class ChatComponent
     }
 
     onViewContact(e: any, c: any) {
+        this.receivedData = [];
         this.isProceess = true;
         this.contactinfo = e;
         this.bgclass = c;
@@ -487,6 +521,13 @@ export class ChatComponent
         this.show = true;
 
 
+
+
+        // this.masterName = `/customer/seen-ByMobileNo/${this.contact}/seen/false`;
+        // this.subscription = this.apiService.getAll(this.masterName).pipe(take(1)).subscribe(data => {
+        //     console.log(data)
+        // }, error => {
+        // })
 
         this.checkstatus();
 
@@ -504,7 +545,7 @@ export class ChatComponent
 
         this.subscription = this.whatsappService
             .chatHistory(e.phoneNo)
-            .pipe(take(1))
+            .pipe(take(1), distinctUntilChanged())
             .subscribe(
                 (response) => {
                     this.item = response;
@@ -521,7 +562,7 @@ export class ChatComponent
                     this.masterName = `/chat-activity/${e.phoneNo}`;
                     this.subscription = this.apiService
                         .getAll(this.masterName)
-                        .pipe(take(1))
+                        .pipe(take(1), distinctUntilChanged(),)
                         .subscribe(
                             (data) => {
                                 this.Userinfo = data;
@@ -679,7 +720,7 @@ export class ChatComponent
                     model: model
                 }
                 this.isProceess = true;
-                this.subscription = this.apiService.add(addData).pipe(take(1)).subscribe(res => {
+                this.subscription = this.apiService.add(addData).pipe(take(1), distinctUntilChanged()).subscribe(res => {
                     this.isProceess = false;
                     this.toastr.success(res.message);
                     this.checkstatus();
@@ -853,6 +894,8 @@ export class ChatComponent
                     (response) => {
                         this.contactList = response;
                         this.open = this.contactList[0].open;
+
+                        // console.log('---------------->', this.open);
                         //this.missed = this.contactList[0].missed;
 
                         this.missed = this.contactList[0].missed.filter((contact: any) => contact.missedBy === this.userData?.userId) ?? [];
@@ -1728,8 +1771,11 @@ export class ChatComponent
         componentInstance.catalog = e;
     }
 
+
     getFormattedText(text: string): string {
         const formattedText = text.replace(/ \/n/g, '<br>');
         return formattedText;
     }
+
+
 }

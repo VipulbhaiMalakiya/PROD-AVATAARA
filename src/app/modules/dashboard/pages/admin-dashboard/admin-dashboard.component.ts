@@ -203,6 +203,9 @@ export class AdminDashboardComponent implements OnInit {
             );
         }
 
+        else if (this.selectedValue === 'custom data') {
+            return;
+        }
         this.isProceess = true;
         var model: any = {
             startDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
@@ -739,4 +742,3 @@ export class AdminDashboardComponent implements OnInit {
             })
     }
 }
-

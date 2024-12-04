@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { clone } from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService, EncrDecrService } from 'src/app/_services';
 import { environment } from 'src/environments/environment';
@@ -17,7 +18,7 @@ export class DefaultLoginComponent implements OnInit {
     logUser: any;
     loginForm: any;
     logUsers: any;
-    public showPassword: boolean = false;
+
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -28,11 +29,9 @@ export class DefaultLoginComponent implements OnInit {
         private EncrDecr: EncrDecrService
     ) {
         this.titleService.setTitle('CDC - Login');
-        this.loginForm = this.formBuilder.group({ username: ['https://tcplconnecto.com/#/login', Validators.required] });
+        this.loginForm = this.formBuilder.group({ username: [null, Validators.required] });
     }
-    toggleFieldTextType() {
-        this.showPassword = !this.showPassword;
-    }
+
     ngOnInit(): void {
         const d: any = localStorage.getItem('userData');
         this.logUsers = JSON.parse(d);
@@ -50,28 +49,40 @@ export class DefaultLoginComponent implements OnInit {
             }
         }
     }
+
     onSubmit() {
-        if (this.loginForm.invalid) { this.loginForm.controls['username'].markAsTouched(); return; }
-        this.loading = true;
-        let data: any = { loginUrl: this.loginForm.value.username, };
-        const subdomain = this.getSubdomainFromUrl(data.loginUrl);
-        let subdomainUrl: string;
-        localStorage.setItem('loginUrl', subdomain ?? '');
-
-    }
-
-    getSubdomainFromUrl(loginUrl: string): string | null {
-        const url = new URL(loginUrl);
-        const hostname = url.hostname;
-        const parts = hostname.split('.');
-
-        // Check if there are more than two parts (subdomain.domain.tld)
-        if (parts.length > 2) {
-            return parts[0];
+        if (this.loginForm.invalid) {
+            this.loginForm.controls['username'].markAsTouched();
+            return;
         }
 
-        return null;
+        let data: any = { loginUrl: this.loginForm.value.username };
+        const subdomain = this.getSubdomainFromUrl(data.loginUrl).toLowerCase() ?? '';
+        localStorage.setItem('loginUrl', subdomain ?? '');
+
+        // Redirect logic
+        const baseUrl = `${environment.ReqUrl}${environment.appUrl}`;
+        const redirectUrl = subdomain ? `${environment.ReqUrl}${subdomain}.${environment.appUrl}` : baseUrl;
+
+        window.location.href = redirectUrl;
     }
+
+    getSubdomainFromUrl(loginUrl: string): string {
+        try {
+            let urlWithoutProtocol = loginUrl.replace(/(^\w+:|^)\/\//, '');
+            const urlParts = urlWithoutProtocol.split(/[.:\/]+/);
+            if (urlParts.length >= 1) {
+                return urlParts[0].toLowerCase();
+            } else {
+                console.warn('Invalid login URL format.');
+                return '';
+            }
+        } catch (error) {
+            console.error('Error parsing the login URL:', error);
+            return '';
+        }
+    }
+
 
     shouldShowError(controlName: string, errorName: string) {
         return (

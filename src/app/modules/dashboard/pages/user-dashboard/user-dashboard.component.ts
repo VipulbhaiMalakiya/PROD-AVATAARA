@@ -1,5 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
+
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -47,7 +49,7 @@ export class UserDashboardComponent implements OnInit {
     width_t = 850;
     height_t = 250;
     title: any;
-    selectedValue?: any = 7;
+    selectedValue: string = '7';
     startDate?: any;
     endDate?: any;
 
@@ -199,6 +201,9 @@ export class UserDashboardComponent implements OnInit {
             );
         }
 
+        else if (this.selectedValue === 'custom data') {
+            return;
+        }
         this.isProceess = true;
         var model: any = {
             startDate: this.datePipe.transform(this.startDate, 'yyyy-MM-dd'),
@@ -211,6 +216,7 @@ export class UserDashboardComponent implements OnInit {
         this.isAdmincustomerdata(model);
 
     }
+
 
 
     submitDateRange() {
