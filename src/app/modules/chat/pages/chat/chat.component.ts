@@ -589,6 +589,7 @@ export class ChatComponent
                         );
                 },
                 (error) => {
+
                     this.isProceess = false;
                 }
             );
